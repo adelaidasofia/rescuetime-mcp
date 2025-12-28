@@ -1,0 +1,27 @@
+[project]
+name = "rescuetime-mcp"
+version = "0.1.0"
+description = "MCP server for RescueTime productivity data"
+requires-python = ">=3.11"
+dependencies = [
+    "fastmcp>=2.0.0",
+    "httpx",
+    "pydantic>=2.0",
+    "python-dotenv",
+]
+
+[project.scripts]
+rescuetime-mcp = "rescuetime_mcp.server:main"
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-asyncio",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/rescuetime_mcp"]
