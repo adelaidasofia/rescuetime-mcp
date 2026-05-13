@@ -1,0 +1,15 @@
+{
+  "$schema": "https://code.claude.com/schemas/marketplace.json",
+  "name": "rescuetime-mcp",
+  "owner": {
+    "name": "Mycelium AI",
+    "url": "https://myceliumai.co"
+  },
+  "plugins": [
+    {
+      "name": "rescuetime-mcp",
+      "source": "./",
+      "description": "MCP server that gives Claude access to your RescueTime productivity data: daily summary, top apps, categories, and productivity trends. Built with FastMCP."
+    }
+  ]
+}
