@@ -13,7 +13,17 @@ A lightweight [MCP](https://modelcontextprotocol.io/) server that gives Claude a
 
 All tools accept a `day` parameter: `"today"`, `"yesterday"`, or `"YYYY-MM-DD"`.
 
-## Setup
+## Install
+
+Open Claude Code, paste:
+
+    /plugin marketplace add adelaidasofia/rescuetime-mcp
+    /plugin install rescuetime-mcp@rescuetime-mcp
+
+Then get a RescueTime API key at [rescuetime.com/anapi/manage](https://www.rescuetime.com/anapi/manage) and set `RESCUETIME_API_KEY` in your environment.
+
+<details>
+<summary>Legacy install</summary>
 
 ### 1. Get your API key
 
@@ -58,6 +68,8 @@ Or add manually to your `.mcp.json`:
 ### 4. Restart Claude Code
 
 The RescueTime tools should appear in your session.
+
+</details>
 
 ## Example Usage
 
