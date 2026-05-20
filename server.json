@@ -16,6 +16,7 @@
       "transport": {
         "type": "stdio"
       },
+      "fileSha256": "3802ba625da2448f6fa8ec98ced09224ced8732c87ecac1f32a3db0c55245d4e",
       "environmentVariables": [
         {
           "name": "RESCUETIME_API_KEY",
