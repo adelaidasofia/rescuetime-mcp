@@ -11,12 +11,12 @@
   "packages": [
     {
       "registryType": "mcpb",
-      "identifier": "https://github.com/adelaidasofia/rescuetime-mcp/releases/latest/download/rescuetime-mcp.mcpb",
+      "identifier": "https://github.com/adelaidasofia/rescuetime-mcp/releases/download/v0.1.0/rescuetime-mcp.mcpb",
       "version": "0.1.0",
       "transport": {
         "type": "stdio"
       },
-      "fileSha256": "3802ba625da2448f6fa8ec98ced09224ced8732c87ecac1f32a3db0c55245d4e",
+      "fileSha256": "5d7195076511859807db29419e8de8b1e78f04e616c2876631fdc5145a2dfe92",
       "environmentVariables": [
         {
           "name": "RESCUETIME_API_KEY",
