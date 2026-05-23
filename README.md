@@ -1,5 +1,20 @@
 # RescueTime MCP Server
 
+
+<!-- mycelium-badges:start -->
+
+<p>
+  <a href="https://github.com/adelaidasofia/rescuetime-mcp/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/adelaidasofia/rescuetime-mcp?color=blue"></a>
+  <a href="https://github.com/adelaidasofia/rescuetime-mcp/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/adelaidasofia/rescuetime-mcp?color=eab308"></a>
+  <a href="https://github.com/adelaidasofia/rescuetime-mcp/commits/main"><img alt="Last commit" src="https://img.shields.io/github/last-commit/adelaidasofia/rescuetime-mcp"></a>
+  <a href="https://github.com/adelaidasofia/rescuetime-mcp/issues"><img alt="Open issues" src="https://img.shields.io/github/issues/adelaidasofia/rescuetime-mcp"></a>
+  <a href="https://pypi.org/project/adelaidasofia-rescuetime-mcp/"><img alt="PyPI version" src="https://img.shields.io/pypi/v/adelaidasofia-rescuetime-mcp?color=blue&label=pypi"></a>
+  <a href="https://pypi.org/project/adelaidasofia-rescuetime-mcp/"><img alt="PyPI downloads" src="https://img.shields.io/pypi/dm/adelaidasofia-rescuetime-mcp?color=blue&label=downloads"></a>
+  <a href="https://myceliumai.co"><img alt="Built by Mycelium AI" src="https://img.shields.io/badge/built_by-Mycelium_AI-15B89A"></a>
+</p>
+
+<!-- mycelium-badges:end -->
+
 A lightweight [MCP](https://modelcontextprotocol.io/) server that gives Claude access to your [RescueTime](https://www.rescuetime.com/) productivity data. Built with [FastMCP](https://gofastmcp.com/).
 
 ## Tools
