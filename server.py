@@ -1,9 +1,12 @@
 """RescueTime MCP Server — pulls productivity data for daily journal integration."""
 
 import os
-import httpx
 from datetime import date, timedelta
+from urllib.parse import urlparse
+
+import httpx
 from fastmcp import FastMCP
+from mycelium_security import UnsafeURL, assert_public_ip, sanitize_or_raise
 
 mcp = FastMCP("RescueTime")
 
@@ -12,12 +15,22 @@ BASE = "https://www.rescuetime.com/anapi"
 
 
 async def _get(endpoint: str, params: dict | None = None) -> dict | list:
-    """Make an authenticated GET request to the RescueTime API."""
+    """Make an authenticated GET request to the RescueTime API.
+
+    SSRF hardening (MYC-101): sanitize URL, assert public IP, block redirects.
+    """
     p = {"key": API_KEY, "format": "json"}
     if params:
         p.update(params)
-    async with httpx.AsyncClient() as client:
-        r = await client.get(f"{BASE}/{endpoint}", params=p, timeout=15)
+    url = f"{BASE}/{endpoint}"
+    try:
+        safe_url = sanitize_or_raise(url)
+        host = urlparse(safe_url).hostname or ""
+        assert_public_ip(host)
+    except UnsafeURL as exc:
+        raise RuntimeError(f"rescuetime-mcp refused (SSRF): {exc}") from exc
+    async with httpx.AsyncClient(follow_redirects=False) as client:
+        r = await client.get(safe_url, params=p, timeout=15)
         r.raise_for_status()
         return r.json()
 

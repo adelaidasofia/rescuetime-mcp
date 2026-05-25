@@ -4,9 +4,11 @@ import os
 from datetime import date, timedelta
 from pathlib import Path
 from typing import Optional
+from urllib.parse import urlparse
 
 import httpx
 from dotenv import load_dotenv
+from mycelium_security import UnsafeURL, assert_public_ip, sanitize_or_raise
 
 from rescuetime_mcp.models import DailySummary, AnalyticDataRow, HourlyData
 
@@ -59,14 +61,24 @@ class RescueTimeClient:
         endpoint: str,
         params: Optional[dict] = None,
     ) -> dict | list:
-        """Make an authenticated request to the RescueTime API."""
+        """Make an authenticated request to the RescueTime API.
+
+        SSRF hardening (MYC-101): sanitize URL, assert public IP, block redirects.
+        """
         url = f"{self.BASE_URL}/{endpoint}"
+        try:
+            safe_url = sanitize_or_raise(url)
+            host = urlparse(safe_url).hostname or ""
+            assert_public_ip(host)
+        except UnsafeURL as exc:
+            raise RescueTimeAPIError(f"refused (SSRF): {exc}") from exc
+
         request_params = {"key": self.api_key, "format": "json"}
         if params:
             request_params.update(params)
 
-        async with httpx.AsyncClient() as client:
-            response = await client.get(url, params=request_params)
+        async with httpx.AsyncClient(follow_redirects=False) as client:
+            response = await client.get(safe_url, params=request_params)
 
             if response.status_code == 401:
                 raise RescueTimeAuthError("Invalid API key")
