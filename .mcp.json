@@ -1,8 +1,13 @@
 {
   "mcpServers": {
     "rescuetime": {
-      "command": "fastmcp",
-      "args": ["run", "${CLAUDE_PLUGIN_ROOT}/server.py"],
+      "command": "sh",
+      "args": [
+        "${CLAUDE_PLUGIN_ROOT}/bin/uv-run",
+        "fastmcp",
+        "run",
+        "${CLAUDE_PLUGIN_ROOT}/server.py"
+      ],
       "env": {
         "RESCUETIME_API_KEY": "${RESCUETIME_API_KEY}"
       }
