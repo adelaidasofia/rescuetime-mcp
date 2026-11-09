@@ -49,24 +49,21 @@ Go to [rescuetime.com/anapi/manage](https://www.rescuetime.com/anapi/manage) and
 You need [git](https://git-scm.com/downloads) and [uv](https://docs.astral.sh/uv/getting-started/installation/). If you don't have Python 3.11 or newer, uv downloads it for you.
 
 ```bash
-git clone https://github.com/adelaidasofia/rescuetime-mcp.git
-cd rescuetime-mcp
-uv sync
+git clone https://github.com/adelaidasofia/rescuetime-mcp.git "$HOME/rescuetime-mcp"
+uv sync --directory "$HOME/rescuetime-mcp"
 ```
 
-`uv sync` installs FastMCP, httpx and `mycelium-security` (a URL safety check) at the versions pinned in `uv.lock`. There is nothing else to install.
+`uv sync` installs everything the server needs (FastMCP, httpx and `mycelium-security`, a URL safety check) at the versions pinned in `uv.lock`.
 
 ### 3. Add to Claude Code
-
-Run this from inside the `rescuetime-mcp` folder:
 
 ```bash
 claude mcp add rescuetime -s user \
   -e RESCUETIME_API_KEY=your_api_key_here \
-  -- uv run --directory "$PWD" fastmcp run server.py
+  -- uv run --directory "$HOME/rescuetime-mcp" fastmcp run server.py
 ```
 
-Or add manually to your `.mcp.json`, replacing `/path/to/rescuetime-mcp` with the folder from step 2:
+This works in every project. Or, for one project only, add this to that project's `.mcp.json` (Claude Code asks you to approve it the first time you start there), replacing `/path/to/rescuetime-mcp` with the full path of the folder from step 2:
 
 ```json
 {
@@ -84,7 +81,7 @@ Or add manually to your `.mcp.json`, replacing `/path/to/rescuetime-mcp` with th
 
 ### 4. Restart Claude Code
 
-The RescueTime tools should appear in your session.
+The RescueTime tools should appear in your session. Start Claude Code from your own project, not from inside the `rescuetime-mcp` folder: that folder has its own `.mcp.json` for the plugin, which clashes with this server.
 
 </details>
 
