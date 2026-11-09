@@ -44,34 +44,36 @@ Then get a RescueTime API key at [rescuetime.com/anapi/manage](https://www.rescu
 
 Go to [rescuetime.com/anapi/manage](https://www.rescuetime.com/anapi/manage) and create or copy an API key.
 
-### 2. Install FastMCP
+### 2. Download the server and install it
+
+You need [git](https://git-scm.com/downloads) and [uv](https://docs.astral.sh/uv/getting-started/installation/). If you don't have Python 3.11 or newer, uv downloads it for you.
 
 ```bash
-pipx install fastmcp
+git clone https://github.com/adelaidasofia/rescuetime-mcp.git
+cd rescuetime-mcp
+uv sync
 ```
 
-Or with `uv`:
-
-```bash
-uv tool install fastmcp
-```
+`uv sync` installs FastMCP, httpx and `mycelium-security` (a URL safety check) at the versions pinned in `uv.lock`. There is nothing else to install.
 
 ### 3. Add to Claude Code
 
+Run this from inside the `rescuetime-mcp` folder:
+
 ```bash
-claude mcp add rescuetime \
+claude mcp add rescuetime -s user \
   -e RESCUETIME_API_KEY=your_api_key_here \
-  -- fastmcp run /path/to/server.py
+  -- uv run --directory "$PWD" fastmcp run server.py
 ```
 
-Or add manually to your `.mcp.json`:
+Or add manually to your `.mcp.json`, replacing `/path/to/rescuetime-mcp` with the folder from step 2:
 
 ```json
 {
   "mcpServers": {
     "rescuetime": {
-      "command": "fastmcp",
-      "args": ["run", "/path/to/server.py"],
+      "command": "uv",
+      "args": ["run", "--directory", "/path/to/rescuetime-mcp", "fastmcp", "run", "server.py"],
       "env": {
         "RESCUETIME_API_KEY": "your_api_key_here"
       }
