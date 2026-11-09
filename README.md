@@ -44,34 +44,33 @@ Then get a RescueTime API key at [rescuetime.com/anapi/manage](https://www.rescu
 
 Go to [rescuetime.com/anapi/manage](https://www.rescuetime.com/anapi/manage) and create or copy an API key.
 
-### 2. Install FastMCP
+### 2. Download the server and install it
+
+You need [git](https://git-scm.com/downloads) and [uv](https://docs.astral.sh/uv/getting-started/installation/). If you don't have Python 3.11 or newer, uv downloads it for you.
 
 ```bash
-pipx install fastmcp
+git clone https://github.com/adelaidasofia/rescuetime-mcp.git "$HOME/rescuetime-mcp"
+uv sync --directory "$HOME/rescuetime-mcp"
 ```
 
-Or with `uv`:
-
-```bash
-uv tool install fastmcp
-```
+`uv sync` installs everything the server needs (FastMCP, httpx and `mycelium-security`, a URL safety check) at the versions pinned in `uv.lock`.
 
 ### 3. Add to Claude Code
 
 ```bash
-claude mcp add rescuetime \
+claude mcp add rescuetime -s user \
   -e RESCUETIME_API_KEY=your_api_key_here \
-  -- fastmcp run /path/to/server.py
+  -- uv run --directory "$HOME/rescuetime-mcp" fastmcp run server.py
 ```
 
-Or add manually to your `.mcp.json`:
+This works in every project. Or, for one project only, add this to that project's `.mcp.json` (Claude Code asks you to approve it the first time you start there), replacing `/path/to/rescuetime-mcp` with the full path of the folder from step 2:
 
 ```json
 {
   "mcpServers": {
     "rescuetime": {
-      "command": "fastmcp",
-      "args": ["run", "/path/to/server.py"],
+      "command": "uv",
+      "args": ["run", "--directory", "/path/to/rescuetime-mcp", "fastmcp", "run", "server.py"],
       "env": {
         "RESCUETIME_API_KEY": "your_api_key_here"
       }
@@ -82,7 +81,7 @@ Or add manually to your `.mcp.json`:
 
 ### 4. Restart Claude Code
 
-The RescueTime tools should appear in your session.
+The RescueTime tools should appear in your session. Start Claude Code from your own project, not from inside the `rescuetime-mcp` folder: that folder has its own `.mcp.json` for the plugin, which clashes with this server.
 
 </details>
 
